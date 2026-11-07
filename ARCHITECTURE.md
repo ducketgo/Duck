@@ -1,6 +1,6 @@
 # Architecture actuelle
 
-- `src/app`: App Router Next.js ; pages d’accueil, services, présentation, catalogue, journal et DuckAuth.
+- `src/app`: App Router Next.js exporté en site statique pour GitHub Pages ; pages d’accueil, services, présentation, catalogue, journal et DuckAuth.
 - `src/components/site-shell.tsx`: navigation et pied de page responsive.
 - `src/lib/services.ts`: registre typé des branches et de leurs statuts.
 - `src/lib/supabase`: clients Supabase pour la base plateforme. L’architecture cible utilise Firebase Auth avec le jeton Firebase fourni au client Supabase.
