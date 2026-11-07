@@ -1,0 +1,76 @@
+name: Deploy DUCK to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+        env:
+          # Public Firebase Web config (safe to expose in client bundles).
+          NEXT_PUBLIC_FIREBASE_API_KEY: ${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY || 'AIzaSyDaiVigDT5erDXCQ4M0m_uMMAUIM1Qf8E8' }}
+          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ vars.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'duckauth2026.firebaseapp.com' }}
+          NEXT_PUBLIC_FIREBASE_PROJECT_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'duckauth2026' }}
+          NEXT_PUBLIC_FIREBASE_APP_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_APP_ID || '1:263697354906:web:94e8ac6ee1ba8c4fea4f23' }}
+          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '263697354906' }}
+          NEXT_PUBLIC_FIREBASE_DATABASE_URL: ${{ vars.NEXT_PUBLIC_FIREBASE_DATABASE_URL || 'https://duckauth2026-default-rtdb.asia-southeast1.firebasedatabase.app' }}
+          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ vars.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'duckauth2026.firebasestorage.app' }}
+          NEXT_PUBLIC_FIREBASE_FUNCTIONS_REGION: ${{ vars.NEXT_PUBLIC_FIREBASE_FUNCTIONS_REGION || 'asia-southeast1' }}
+          # Supabase project values are set in Settings → Secrets and variables → Actions → Variables.
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          # Public site settings.
+          NEXT_PUBLIC_APP_NAME: DUCK
+          NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL || 'https://duck.github.io' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH }}
+          NEXT_PUBLIC_HOSTING_PROVIDER: GitHub Pages
+          NEXT_PUBLIC_SUPABASE_REGION: ${{ vars.NEXT_PUBLIC_SUPABASE_REGION || 'eu-west-3' }}
+          # Feature flags. Keep disabled until the Supabase project is verified.
+          NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED: ${{ vars.NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED || 'false' }}
+          NEXT_PUBLIC_GUEST_TRANSFER_ENABLED: ${{ vars.NEXT_PUBLIC_GUEST_TRANSFER_ENABLED || 'false' }}
+          NEXT_PUBLIC_FIREBASE_SUPABASE_BRIDGE_ENABLED: ${{ vars.NEXT_PUBLIC_FIREBASE_SUPABASE_BRIDGE_ENABLED || 'false' }}
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,8 @@
+[functions.guest-transfer]
+verify_jwt = false
+
+# Keep the Firebase project ID here for CLI/local configuration.
+# The hosted Supabase project must also have the integration enabled in its dashboard.
+[auth.third_party.firebase]
+enabled = true
+project_id = "duckauth2026"
