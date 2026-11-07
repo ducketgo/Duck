@@ -7,15 +7,14 @@
 - Accueil, présentation du fondateur et de la communauté, liste et pages détaillées des huit branches.
 - Pages distinctes Logiciels et Journal avec états vides explicites, sans contenu inventé.
 - Interface de transfert sans compte prête pour Supabase Storage : bucket privé, jetons aléatoires, liens 24 h, plafond de 25 Mio, envoi signé, téléchargement signé et limites de fréquence.
-- Écrans Firebase Auth pour connexion, inscription avec vérification d’e-mail et récupération du mot de passe.
-- Callable Firebase pour claims `authenticated` et `admin`, à déployer avec le plan requis.
+- Écrans Supabase Auth pour inscription, vérification d’e-mail, connexion et récupération du mot de passe.
 - Configuration manquante signalée proprement ; pages publiques utilisables sans projet Supabase.
-- Schéma cible Supabase pour les profils liés à Firebase, conversations, messages et pièces jointes protégés par RLS.
+- Schéma Supabase Auth pour les profils liés à `auth.users` et protégés par RLS.
 - Documentation de prise en main, architecture, configuration, sécurité et déploiement.
 
-## À configurer pour activer Firebase Auth
+## À vérifier pour les comptes
 
-Confirmer le Project ID Firebase, activer les fournisseurs, connecter Firebase comme fournisseur Third-Party Auth dans Supabase et déployer la fonction serveur qui émet les claims requises.
+Confirmer les URL de redirection autorisées dans Supabase Auth et tester le parcours complet de confirmation d’adresse et de réinitialisation de mot de passe sur le domaine de production.
 
 ## Pas encore opérationnel
 
@@ -25,7 +24,7 @@ Administration et rôles personnalisés, publication et contenus, gestion réell
 
 ## Prochaines phases conseillées
 
-1. Déployer la fonction Firebase claims, appliquer `supabase/setup.sql`, puis vérifier les politiques RLS avec Firebase.
+1. Vérifier les migrations et politiques RLS Supabase Auth avec plusieurs comptes de test.
 2. Compléter le profil et les préférences de confidentialité avec RLS.
 3. Créer la gestion de contenu logiciel protégée par rôle admin côté serveur.
 4. Ajouter publications et commentaires avec règles d’accès par visibilité.

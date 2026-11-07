@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { getFirebaseAuth } from '@/lib/firebase/client';
+import { createClient } from '@/lib/supabase/client';
 import { withBasePath } from '@/lib/supabase/config';
 
 export function ForgotPasswordForm() {
@@ -12,8 +11,12 @@ export function ForgotPasswordForm() {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); const form = event.currentTarget; setBusy(true); setMessage(''); setError('');
     const email = String(new FormData(form).get('email') ?? '').trim();
+    const supabase = createClient();
     try {
-      await sendPasswordResetEmail(getFirebaseAuth(), email, { url: `${window.location.origin}${withBasePath('/auth/login')}` });
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}${withBasePath('/auth/update-password')}`,
+      });
+      if (resetError) throw resetError;
       setMessage('Si un compte correspond à cette adresse, un lien de réinitialisation a été envoyé.');
       form.reset();
     } catch { setError('Le service de récupération est temporairement indisponible.'); }

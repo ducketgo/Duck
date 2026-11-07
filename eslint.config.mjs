@@ -6,7 +6,7 @@ const compat = new FlatCompat({ baseDirectory: dirname(fileURLToPath(import.meta
 
 const config = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
-  { ignores: ['.next/**', 'node_modules/**', 'next-env.d.ts', 'supabase/functions/**', 'firebase/functions/**'] },
+  { ignores: ['.next/**', 'out/**', '.vercel/**', 'node_modules/**', 'coverage/**', 'next-env.d.ts', 'supabase/functions/**', 'firebase/functions/**'] },
 ];
 
 export default config;

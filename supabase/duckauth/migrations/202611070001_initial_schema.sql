@@ -44,13 +44,16 @@ revoke all on public.profiles from anon, authenticated;
 grant select on public.profiles to authenticated;
 grant update (username, first_name, last_name, bio, avatar_url, is_profile_public) on public.profiles to authenticated;
 
+drop policy if exists "Members can read their profile" on public.profiles;
 create policy "Members can read their profile" on public.profiles
   for select to authenticated using (id = (select auth.uid()));
+drop policy if exists "Public profiles are visible to signed-in members" on public.profiles;
 create policy "Public profiles are visible to signed-in members" on public.profiles
   for select to authenticated using (is_profile_public = true);
+drop policy if exists "Members can update their profile" on public.profiles;
 create policy "Members can update their profile" on public.profiles
   for update to authenticated using (id = (select auth.uid()))
   with check (id = (select auth.uid()));
 
--- No client policy permits changing role or points. Award points via a future
+-- audited server-side RPC with idempotency protection.
 -- audited server-side RPC with idempotency protection.

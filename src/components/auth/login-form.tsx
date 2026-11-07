@@ -3,14 +3,12 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { getFirebaseAuth, ensureSupabaseClaims } from '@/lib/firebase/client';
-import { syncFirebaseProfile } from '@/lib/firebase/profile';
+import { createClient } from '@/lib/supabase/client';
 
 const initialMessages: Record<string, string> = {
   verified: 'Adresse confirmée. Tu peux maintenant te connecter.',
   unverified: 'Confirme ton adresse depuis l’e-mail reçu avant de te connecter.',
-  'backend-unavailable': 'La liaison Firebase/Supabase est temporairement indisponible.',
+  'backend-unavailable': 'Le service d’authentification Supabase est temporairement indisponible.',
 };
 
 export function LoginForm() {
@@ -28,32 +26,33 @@ export function LoginForm() {
     setBusy(true);
     setError('');
     const data = new FormData(event.currentTarget);
-    let auth: ReturnType<typeof getFirebaseAuth> | null = null;
+    const email = String(data.get('email') ?? '').trim();
+    const password = String(data.get('password') ?? '');
+    const supabase = createClient();
     try {
-      auth = getFirebaseAuth();
-      const credential = await signInWithEmailAndPassword(auth, String(data.get('email')), String(data.get('password')));
-      if (!credential.user.emailVerified) {
-        await signOut(auth);
+      const { data: sessionData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError || !sessionData.user) throw signInError ?? new Error('Connexion impossible.');
+      if (!sessionData.user.email_confirmed_at) {
+        await supabase.auth.signOut();
         setError('Confirme ton adresse depuis l’e-mail reçu avant de te connecter.');
         return;
       }
-      const currentClaims = await credential.user.getIdTokenResult();
-      if (!currentClaims.claims.terms_version) {
-        if (data.get('acceptTerms') !== 'on') {
-          await signOut(auth);
-          setError('Pour terminer la configuration de ce compte, accepte les conditions et la politique de confidentialité.');
-          return;
-        }
-        await ensureSupabaseClaims(credential.user, { acceptedTerms: true });
-      } else {
-        await ensureSupabaseClaims(credential.user);
+      const acceptedTerms = sessionData.user.user_metadata?.accepted_terms === true || sessionData.user.user_metadata?.terms_version === '2026-11-07-v1';
+      if (!acceptedTerms && data.get('acceptTerms') !== 'on') {
+        await supabase.auth.signOut();
+        setError('Pour terminer la configuration de ce compte, accepte les conditions et la politique de confidentialité.');
+        return;
       }
-      await syncFirebaseProfile(credential.user);
+      if (!acceptedTerms) {
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: { accepted_terms: true, terms_version: '2026-11-07-v1' },
+        });
+        if (updateError) throw updateError;
+      }
       router.replace('/dashboard');
       router.refresh();
     } catch {
-      if (auth?.currentUser) await signOut(auth);
-      setError('Connexion impossible. Vérifie tes identifiants et la configuration Firebase/Supabase.');
+      setError('Connexion impossible. Vérifie tes identifiants et la configuration Supabase.');
     } finally { setBusy(false); }
   }
 

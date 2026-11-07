@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowDownRight, ArrowRight, ArrowUpRight, AudioLines, Box, Code2, Compass, Globe2, ShieldCheck, Users } from 'lucide-react';
+import { useSiteVisualSettings } from '@/components/site-visual-provider';
 
 const branches = [
   { icon: Code2, name: 'DuckDev', text: 'Construire et faire grandir les outils de l’écosystème.', color: 'cyan', href: '/services/duckdev' },
@@ -11,15 +14,22 @@ const branches = [
 ];
 
 export default function HomePage() {
+  const { settings } = useSiteVisualSettings();
   return <>
     <section className="hero wrap">
-      <div className="hero-copy"><div className="eyebrow"><span className="pulse-dot"/> UN ÉCOSYSTÈME EN CONSTRUCTION</div><h1>Le numérique<br/>se construit <span>ensemble.</span></h1><p className="hero-lede">DUCK rassemble des logiciels, des projets et une communauté pour apprendre, créer et avancer à son rythme.</p><div className="hero-actions"><Link className="button" href="/services">Explorer DUCK <ArrowRight size={17}/></Link><Link className="text-link" href="/about">Découvrir notre histoire <ArrowUpRight size={16}/></Link></div><div className="hero-note"><span className="note-line"/> Une initiative ouverte portée par sa communauté</div></div>
-      <div className="hero-art" aria-label="Illustration abstraite de l’univers DUCK"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="orbit orbit-three"/><div className="hero-core"><div className="duck-symbol">D</div><span>DUCK<br/><small>COMMUNITY SYSTEM</small></span></div><span className="orbit-node node-a"><Code2 size={18}/></span><span className="orbit-node node-b"><AudioLines size={18}/></span><span className="orbit-node node-c"><Users size={18}/></span><span className="orbit-node node-d"><Globe2 size={18}/></span><span className="art-caption">UN UNIVERS. PLUSIEURS POSSIBILITÉS.</span></div>
+      <div className="hero-copy">
+        <div className="eyebrow"><span className="pulse-dot"/> {settings.heroEyebrow}</div>
+        <h1>{settings.heroTitleLine1}<br/><span>{settings.heroTitleLine2}</span></h1>
+        <p className="hero-lede">{settings.heroDescription}</p>
+        <div className="hero-actions"><Link className="button" href={String(settings.heroPrimaryHref)}>{settings.heroPrimaryLabel} <ArrowRight size={17}/></Link><Link className="text-link" href="/about">{settings.heroSecondaryLabel} <ArrowUpRight size={16}/></Link></div>
+        <div className="hero-note" data-visual-hidden={!settings.showHeroNote}><span className="note-line"/> Une initiative ouverte portée par sa communauté</div>
+      </div>
+      <div className="hero-art" data-visual-hidden={!settings.showHeroArtwork} aria-label="Illustration abstraite de l’univers DUCK"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="orbit orbit-three"/><div className="hero-core"><div className="duck-symbol">D</div><span>DUCK<br/><small>COMMUNITY SYSTEM</small></span></div><span className="orbit-node node-a"><Code2 size={18}/></span><span className="orbit-node node-b"><AudioLines size={18}/></span><span className="orbit-node node-c"><Users size={18}/></span><span className="orbit-node node-d"><Globe2 size={18}/></span><span className="art-caption">UN UNIVERS. PLUSIEURS POSSIBILITÉS.</span></div>
       <Link className="scroll-cue" href="#ecosysteme" aria-label="Découvrir l’écosystème"><ArrowDownRight size={17}/></Link>
     </section>
-    <section className="intro-band"><div className="wrap intro-inner"><span className="section-kicker">NOTRE INTENTION</span><p>Un endroit accueillant pour <em>se retrouver, échanger, créer et apprendre.</em></p><Compass className="intro-icon" strokeWidth={1}/></div></section>
-    <section className="section wrap" id="ecosysteme"><div className="section-head"><div><span className="section-kicker">UN ÉCOSYSTÈME QUI GRANDIT</span><h2>Des espaces pour <span>chaque idée.</span></h2></div><Link className="text-link" href="/services">Tous les services <ArrowUpRight size={16}/></Link></div><div className="branch-grid">{branches.map(({ icon: Icon, ...b }, i) => <Link className="branch-card" key={b.name} href={b.href}><div className="branch-top"><span className={`branch-icon ${b.color}`}><Icon size={19}/></span><span className="branch-number">0{i + 1}</span></div><h3>{b.name}</h3><p>{b.text}</p><span className="branch-arrow"><ArrowUpRight size={17}/></span></Link>)}</div></section>
-    <section className="manifesto"><div className="wrap manifesto-inner"><span className="section-kicker">LA DEVISE DUCK</span><p>Apprendre, avancer<br/>et <span>performer.</span></p><Link href="/about" className="text-link">En savoir plus sur DUCK <ArrowRight size={16}/></Link><div className="manifesto-orb"/></div></section>
-    <section className="closing-cta wrap"><div><span className="section-kicker">LA SUITE S’ÉCRIT ENSEMBLE</span><h2>Une idée en tête ?<br/><span>Elle a sa place ici.</span></h2></div><Link href="/auth/signup" className="button">Rejoindre la communauté <ArrowUpRight size={16}/></Link></section>
+    <section className="intro-band" data-visual-hidden={!settings.showIntroSection}><div className="wrap intro-inner"><span className="section-kicker">{settings.introLabel}</span><p>{settings.introText}</p><Compass className="intro-icon" strokeWidth={1}/></div></section>
+    <section className="section wrap" id="ecosysteme" data-visual-hidden={!settings.showServicesSection}><div className="section-head"><div><span className="section-kicker">{settings.servicesSectionLabel}</span><h2>{settings.servicesHeading}</h2></div><Link className="text-link" href="/services">Tous les services <ArrowUpRight size={16}/></Link></div><div className="branch-grid">{branches.map(({ icon: Icon, ...branch }, index) => <Link className="branch-card" key={branch.name} href={branch.href}><div className="branch-top"><span className={`branch-icon ${branch.color}`}><Icon size={19}/></span><span className="branch-number">0{index + 1}</span></div><h3>{branch.name}</h3><p>{branch.text}</p><span className="branch-arrow"><ArrowUpRight size={17}/></span></Link>)}</div></section>
+    <section className="manifesto" data-visual-hidden={!settings.showManifestoSection}><div className="wrap manifesto-inner"><span className="section-kicker">{settings.manifestoLabel}</span><p>{settings.manifestoText}</p><Link href="/about" className="text-link">En savoir plus sur DUCK <ArrowRight size={16}/></Link><div className="manifesto-orb"/></div></section>
+    <section className="closing-cta wrap" data-visual-hidden={!settings.showClosingSection}><div><span className="section-kicker">{settings.closingLabel}</span><h2>Une idée en tête ?<br/><span>Elle a sa place ici.</span></h2></div><Link href="/auth/signup" className="button">{settings.closingButtonLabel} <ArrowUpRight size={16}/></Link></section>
   </>;
 }

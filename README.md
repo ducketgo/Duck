@@ -1,29 +1,24 @@
 # DUCK
 
-Plateforme web DUCK basée sur Next.js 15, React 19, TypeScript, Tailwind CSS 4, Firebase Authentication et Supabase pour les données, messages et fichiers.
+Plateforme web DUCK basée sur Next.js 15, React 19, TypeScript, Tailwind CSS 4 et Supabase Auth.
 
 ## Démarrer en local
 
 1. Installer Node.js 20 ou une version compatible avec Next.js 15.
 2. Exécuter `npm install`.
 3. Copier `.env.example` vers `.env.local`.
-4. Renseigner les variables Firebase Web et Supabase décrites dans [CONFIGURATION.md](CONFIGURATION.md).
+4. Renseigner `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` dans `.env.local`.
 5. Exécuter `npm run dev` et ouvrir `http://localhost:3000`.
 
-Les pages publiques restent accessibles sans configuration backend. Les écrans de connexion et de récupération utilisent Firebase Auth; les inscriptions restent désactivées par défaut. Les appels de données Supabase transmettent le jeton Firebase.
+La connexion, l’inscription, la vérification d’adresse et la récupération de mot de passe utilisent Supabase Auth. Les inscriptions sont activées en production via `NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED=true`.
 
-## Déploiement GitHub Pages
+## Déploiement Vercel
 
-Le projet est exporté en site statique (`output: "export"`) et publié par le workflow [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
+Le projet utilise le build Next.js natif de Vercel. Le domaine de production actuel est `https://duck-lac-two.vercel.app`.
 
-1. Créer le dépôt `duck.github.io` sous le compte ou l’organisation GitHub `duck` (le nom exact du dépôt est obligatoire pour obtenir `https://duck.github.io/`).
-2. Dans **Settings → Pages**, choisir **GitHub Actions** comme source.
-3. Dans **Settings → Secrets and variables → Actions → Variables**, ajouter les valeurs publiques :
-   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, et les variables Firebase si elles diffèrent des valeurs par défaut du workflow.
-4. Ajouter `duck.github.io` dans **Firebase Console → Authentication → Settings → Authorized domains**.
-5. Pousser sur `main` : le workflow construit `out/` et le publie.
+Configurer ces variables dans Vercel pour Production : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_APP_URL` et `NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED`.
 
-Le site étant statique, il ne faut pas de route serveur Next.js, de middleware ni de secrets `SUPABASE_SERVICE_ROLE_KEY` dans le build. Les appels Supabase utilisent le jeton Firebase côté navigateur et les règles RLS. Pour un dépôt de projet (`https://duck.github.io/duck/`), définir la variable `NEXT_PUBLIC_BASE_PATH=/duck`.
+Dans Supabase Auth, activer le fournisseur e-mail, définir l’URL du site et autoriser les redirections vers `https://duck-lac-two.vercel.app/**` et `http://localhost:3000/**`. Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY` ou une clé `sb_secret_...` dans une variable `NEXT_PUBLIC_*`.
 
 ## Documentation
 
@@ -41,4 +36,4 @@ Les pages `/legal`, `/privacy` et `/terms` sont des versions préparatoires. Com
 
 ## État
 
-L’architecture utilise Firebase Auth et Supabase pour les messages et fichiers. Le déploiement de la fonction Firebase de claims, l’application du SQL Supabase et les interfaces de messagerie/administration restent à terminer. Voir [ROADMAP.md](ROADMAP.md).
+L’application web utilise Supabase Auth et Supabase PostgreSQL. Les anciens fichiers d’infrastructure Firebase présents dans le dépôt ne sont pas utilisés par le site. Voir [ROADMAP.md](ROADMAP.md).

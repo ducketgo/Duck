@@ -3,8 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Firebase handles the e-mail action code on its hosted handler. This static
-// page keeps the legacy /auth/callback URL working on GitHub Pages.
+// Supabase completes the e-mail confirmation before redirecting here.
 export default function AuthCallbackPage() {
   const router = useRouter();
 

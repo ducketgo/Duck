@@ -22,6 +22,7 @@ create table if not exists public.software (
 alter table public.software enable row level security;
 revoke all on public.software from anon, authenticated;
 grant select on public.software to anon, authenticated;
+drop policy if exists "Only published software is public" on public.software;
 create policy "Only published software is public" on public.software
   for select to anon, authenticated using (is_published = true);
 -- No client write policies: content management must be implemented using a

@@ -1,3 +1,8 @@
+-- LEGACY SCRIPT — do not run for the current DUCK web application.
+-- The current application uses Supabase Auth and public.profiles.
+-- Apply supabase/duckauth/migrations in order instead; the last migration enables
+-- the admin visual editor. This legacy script deletes public.profiles and is kept
+-- only as a reference for the abandoned Firebase-UID schema.
 -- DUCK backend v2: Firebase Auth + Supabase Database/Storage/Realtime.
 -- Rebuilds DUCK-managed PostgreSQL objects and clears their data.
 -- It leaves auth.users, unrelated project data, and Storage objects intact.

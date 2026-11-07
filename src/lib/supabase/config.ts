@@ -2,14 +2,8 @@ function configured(value: string | undefined) {
   return Boolean(value && !/^your[_-]/i.test(value) && !/placeholder|replace[-_ ]?me/i.test(value));
 }
 
-export function isFirebaseAuthConfigured() {
-  return [
-    process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  ].every(value => Boolean(value && !/placeholder|replace[-_ ]?me/i.test(value)));
+export function isSupabaseAuthConfigured() {
+  return isPlatformConfigured();
 }
 
 export function isPlatformConfigured() {
@@ -20,12 +14,8 @@ export function isGuestTransferEnabled() {
   return process.env.NEXT_PUBLIC_GUEST_TRANSFER_ENABLED === 'true' && isPlatformConfigured();
 }
 
-export function isFirebaseSupabaseBridgeEnabled() {
-  return process.env.NEXT_PUBLIC_FIREBASE_SUPABASE_BRIDGE_ENABLED === 'true' && isFirebaseAuthConfigured() && isPlatformConfigured();
-}
-
 export function isPublicRegistrationEnabled() {
-  return process.env.NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED === 'true' && isFirebaseSupabaseBridgeEnabled();
+  return process.env.NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED === 'true' && isSupabaseAuthConfigured();
 }
 
 export function getBasePath() {

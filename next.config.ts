@@ -6,9 +6,8 @@ import type { NextConfig } from "next";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim().replace(/\/$/, "") || undefined;
 
 const nextConfig: NextConfig = {
-  output: "export",
+  ...(basePath ? { basePath } : {}),
   trailingSlash: true,
-  basePath,
   poweredByHeader: false,
   images: {
     unoptimized: true,

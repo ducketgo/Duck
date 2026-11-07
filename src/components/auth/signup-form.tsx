@@ -1,10 +1,8 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { createUserWithEmailAndPassword, sendEmailVerification, signOut, updateProfile } from 'firebase/auth';
 import Link from 'next/link';
-import { getFirebaseAuth, ensureSupabaseClaims } from '@/lib/firebase/client';
-import { withBasePath } from '@/lib/supabase/config';
+import { createClient } from '@/lib/supabase/client';
 
 export function SignupForm() {
   const [message, setMessage] = useState('');
@@ -23,17 +21,28 @@ export function SignupForm() {
     const username = String(data.get('username') ?? '').trim();
     const email = String(data.get('email') ?? '').trim();
     const password = String(data.get('password') ?? '');
+    const supabase = createClient();
     try {
-      const auth = getFirebaseAuth();
-      const credential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(credential.user, { displayName: `${firstName} ${lastName}`.trim() });
-      await ensureSupabaseClaims(credential.user, { acceptedTerms: true, username });
-      await sendEmailVerification(credential.user, { url: `${window.location.origin}${withBasePath('/auth/login?state=verified')}` });
-      await signOut(auth);
-      setMessage('Compte créé. Consulte ta boîte e-mail et confirme ton adresse avant la première connexion.');
+      const { data: userData, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/login?state=verified`,
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+            username,
+            accepted_terms: true,
+            terms_version: '2026-11-07-v1',
+            is_profile_public: false,
+          },
+        },
+      });
+      if (signUpError || !userData.user) throw signUpError ?? new Error('Inscription impossible.');
+      setMessage('Compte créé. Vérifie ta boîte e-mail pour confirmer ton adresse avant la première connexion.');
       form.reset();
     } catch {
-      setError('Inscription indisponible. Vérifie les paramètres Firebase, la fonction de claims et la validité des champs.');
+      setError('Inscription indisponible. Vérifie les paramètres Supabase et la validité des champs.');
     } finally { setBusy(false); }
   }
 
