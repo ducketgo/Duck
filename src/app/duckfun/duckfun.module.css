@@ -75,3 +75,12 @@
 @keyframes duck-bob { from { opacity: 0; transform: translateY(8px) scale(.85); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @media (max-width: 760px) { .topbar,.catalog { width: calc(100% - 32px); }.topbar { height: 60px; }.hero { padding: 60px 0 45px; }.titleRow h1 { letter-spacing: -3px; }.logo { width: 47px; height: 47px; border-radius: 14px; }.hero>p { font-size: 14px; }.heroMeta { flex-wrap: wrap; line-height: 1.5; }.gameGrid { grid-template-columns: 1fr; }.gameCard { min-height: 340px; }.cardArt { height: 158px; }.sectionHeading h2 { font-size: 23px; }.gameStage { padding-top: 5px; }.experience { padding: 18px 14px; border-radius: 14px; }.gameHeading h1 { font-size: 30px; }.memoryGrid { gap: 6px; }.memoryCard { border-radius: 9px; }.reflexGrid { gap: 6px; }.stackBoard { height: 320px; }.footer { flex-wrap: wrap; padding: 18px 0; }.gameFooter { font-size: 7px; } }
 @media (prefers-reduced-motion: reduce) { .gameCard,.memoryCard,.reflexCell>span { transition: none; animation: none; } }
+.memoryOptions { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:7px; margin:-2px 0 13px; color:#91a3ab; font-size:9px; }
+.memoryOptions button { min-height:28px; padding:0 9px; border:1px solid var(--line); border-radius:7px; background:#081018; color:#b6c6cc; font-size:9px; cursor:pointer; }
+.memoryOptions button[aria-pressed="true"] { border-color:#79e1d988; background:#17312f; color:#9df1e2; }
+.memoryOptions .record { margin-left:auto; color:#8de8d8; }
+.memoryCardMatched { border-color:#77e0ae88; background:linear-gradient(145deg,#173a31,#10251f); color:#a4f2c3; }
+.reflexStats { flex-wrap:wrap; }
+.reflexStats>span { min-width:96px; }
+.stackOverlay>span { color:#91ead8; font-size:11px; font-weight:750; }
+@media (max-width:760px) { .memoryOptions .record { width:100%; margin:3px 0 0; text-align:center; }.memoryOptions { gap:6px; }.reflexStats { gap:6px; }.reflexStats>span { min-width:calc(50% - 6px); } }
