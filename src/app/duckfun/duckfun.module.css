@@ -110,3 +110,15 @@
 .sequenceGrid button { aspect-ratio:1; border:1px solid #b09bff55; border-radius:14px; background:radial-gradient(circle,#182237,#0c121b); cursor:pointer; transition:background .14s,box-shadow .14s,transform .14s; }
 .sequenceGrid button:disabled { cursor:default; }.sequenceGrid button.sequenceLit { transform:scale(.96); border-color:#ddccff; background:radial-gradient(circle,#b09bff,#51439e); box-shadow:0 0 30px #b09bff88; }
 @media (max-width:760px) { .pathGrid,.sequenceGrid { gap:6px; }.pathGrid button { border-radius:8px; }.sequenceGrid button { border-radius:11px; } }
+.catalogTools { margin:0 0 17px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.searchBox { min-height:42px; flex:1 1 260px; padding:0 12px; display:flex; align-items:center; gap:9px; border:1px solid var(--line); border-radius:9px; background:#081018; color:#8ca2aa; }
+.searchBox input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#edf6f6; font:inherit; font-size:12px; }
+.searchBox input::placeholder { color:#72858d; }.searchBox kbd { padding:3px 6px; border:1px solid var(--line); border-radius:5px; color:#82939b; font:10px ui-monospace,monospace; }
+.categorySelect { display:flex; align-items:center; gap:8px; color:#81949c; font-size:10px; }
+.categorySelect select { min-height:40px; padding:0 30px 0 10px; border:1px solid var(--line); border-radius:8px; background:#0c141d; color:#dce8e9; font:inherit; }
+.resultCount { color:#83ddd6; font:10px ui-monospace,monospace; }
+.emptyResults { grid-column:1/-1; padding:50px 15px; color:#a9bac0; text-align:center; }
+.pagination { min-height:57px; margin-top:19px; padding:8px 0; display:flex; align-items:center; justify-content:center; gap:18px; color:#82969e; font-size:10px; }
+.pagination button { min-height:35px; padding:0 11px; display:inline-flex; align-items:center; gap:4px; border:1px solid var(--line); border-radius:8px; background:#0e1720; color:#d5e2e5; font-size:10px; cursor:pointer; }
+.pagination button:disabled { opacity:.4; cursor:default; }
+@media (max-width:760px) { .catalogTools { align-items:stretch; }.categorySelect { flex:1 1 180px; justify-content:space-between; }.resultCount { align-self:center; }.pagination { gap:8px; justify-content:space-between; }.pagination button { padding:0 8px; } }

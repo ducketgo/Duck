@@ -22,8 +22,8 @@ export default async function DuckFunGamePage({ params }: { params: Promise<{ sl
   if (!game) notFound();
 
   return <div className={`${styles.arcade} ${styles.gamePage}`}>
-    <header className={styles.gameTopbar}><Link className={styles.backLink} href="/duckfun"><ArrowLeft size={16}/> DuckFun</Link><span className={styles.miniBrand}>DUCKPHONE / PLAY</span></header>
+    <header className={styles.gameTopbar}><Link className={styles.backLink} href="/duckfun"><ArrowLeft size={16}/> DuckFun</Link><span className={styles.miniBrand}>ARCADE / JEU</span></header>
     <main className={styles.gameStage}><DuckFunPlayer game={game}/></main>
-    <footer className={styles.gameFooter}><span>DUCKFUN · JEU ORIGINAL DUCKPHONE</span><Link href="/duckfun">Changer de jeu</Link></footer>
+    <footer className={styles.gameFooter}><span>DUCKFUN · BONNE PARTIE</span><Link href="/duckfun">Changer de jeu</Link></footer>
   </div>;
 }
