@@ -435,6 +435,203 @@ body {
 .site-visual-root[data-motion="off"] *, .site-visual-root[data-motion="off"] *::before, .site-visual-root[data-motion="off"] *::after { animation: none !important; transition: none !important; }
 .site-visual-root[data-high-contrast="yes"] { --duck-text-secondary: #d6e1e8; --duck-text-muted: #b1c0c9; --duck-border: #8796a0; }
 .site-visual-root [data-visual-hidden="true"] { display: none !important; }
+
+/* Interactive Duck Game & Easter Egg Styles */
+.duck-clicker-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.duck-clicker-button {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #20313d, #0d151e);
+  border: 2px solid rgba(65, 216, 229, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(65, 216, 229, 0.25);
+  cursor: pointer;
+  position: relative;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.duck-clicker-button:hover {
+  transform: scale(1.15) rotate(10deg);
+  border-color: #65dfb5;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(101, 223, 181, 0.4);
+}
+
+.duck-clicker-button:active {
+  transform: scale(0.9) rotate(-10deg);
+}
+
+.duck-on-fire {
+  border-color: #ffd166 !important;
+  box-shadow: 0 0 30px rgba(255, 209, 102, 0.6), 0 0 50px rgba(239, 71, 111, 0.4) !important;
+  animation: glow-pulse 0.4s ease-in-out infinite alternate !important;
+}
+
+.duck-combo-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: linear-gradient(135deg, #ff4d4f, #ff7a45);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 12px;
+  border: 1px solid #fff3;
+  animation: slide-up 0.2s ease-out;
+}
+
+.duck-score-pill {
+  background: rgba(13, 21, 29, 0.85);
+  border: 1px solid rgba(65, 216, 229, 0.3);
+  backdrop-filter: blur(8px);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7ee0dc;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fade-in 0.3s ease-out;
+}
+
+.duck-quack-balloon {
+  position: absolute;
+  bottom: 64px;
+  right: 10px;
+  background: #111a24;
+  color: #eff4f7;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(65, 216, 229, 0.35);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: slide-up 0.2s ease-out;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.duck-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  font-size: 16px;
+  font-weight: 900;
+  user-select: none;
+  animation: particle-fly 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes particle-fly {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--vx)), calc(-50% + var(--vy) - 40px)) scale(1.3);
+  }
+}
+
+.duck-easter-egg-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  z-index: 2000;
+  animation: fade-in 0.3s ease;
+}
+
+.duck-easter-egg-modal {
+  background: linear-gradient(150deg, #131c26, #0e141c);
+  border: 1px solid rgba(65, 216, 229, 0.3);
+  padding: 32px;
+  border-radius: 18px;
+  max-width: 440px;
+  width: calc(100% - 32px);
+  text-align: center;
+  position: relative;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7), 0 0 40px rgba(65, 216, 229, 0.2);
+  animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.duck-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #798d98;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+}
+
+.duck-modal-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.duck-trophy-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: rgba(255, 209, 102, 0.12);
+  color: #ffd166;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 209, 102, 0.3);
+  box-shadow: 0 0 30px rgba(255, 209, 102, 0.25);
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+.duck-secret-badge {
+  background: rgba(65, 216, 229, 0.08);
+  border: 1px dashed rgba(65, 216, 229, 0.3);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.duck-secret-badge span {
+  font-size: 13px;
+  font-weight: 700;
+  color: #7ee0dc;
+}
+
+.duck-secret-badge small {
+  font-size: 11px;
+  color: #92a4af;
+}
+
+@media (max-width: 760px) {
+  .duck-clicker-widget {
+    bottom: 16px;
+    right: 16px;
+  }
+}
 @media (max-width: 760px) {
   .site-visual-root .site-header { height: 64px; padding-inline: 18px; }
   .site-visual-root .hero { min-height: auto; }

@@ -7,6 +7,7 @@ import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { isPublicRegistrationEnabled } from '@/lib/supabase/config';
 import { SiteVisualProvider, useSiteVisualSettings } from '@/components/site-visual-provider';
+import { DuckInteractiveGame } from '@/components/duck-interactive-game';
 
 function SiteShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -38,6 +39,7 @@ function SiteShellContent({ children }: { children: React.ReactNode }) {
       <button className="mobile-menu" onClick={() => setOpen(!open)} aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={open}>{open ? <X/> : <Menu/>}</button>
     </header>
     <main>{children}</main>
+    <DuckInteractiveGame />
     <footer className="site-footer" data-visual-hidden={!settings.showFooter}>
       <Link className="brand footer-brand" href="/">
         <span className="brand-mark" data-visual-hidden={!settings.showBrandMark}>{settings.brandMark}</span>
