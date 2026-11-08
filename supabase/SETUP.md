@@ -4,7 +4,7 @@ Supabase Auth gère les identités et les sessions; PostgreSQL stocke les profil
 
 ## Authentification et redirections
 
-Dans Supabase Dashboard, activer le fournisseur e-mail et la confirmation d’adresse. Dans **Authentication → URL Configuration**, définir comme Site URL `https://duck-lac-two.vercel.app` et autoriser `https://duck-lac-two.vercel.app/**` ainsi que `http://localhost:3000/**`.
+Dans Supabase Dashboard, activer le fournisseur e-mail et la confirmation d’adresse. Dans **Authentication → URL Configuration**, définir comme Site URL `https://duck2026.vercel.app` et autoriser `https://duck2026.vercel.app/**` ainsi que `http://localhost:3000/**`.
 
 La production Vercel utilise `NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED=true`. La variable `NEXT_PUBLIC_SUPABASE_URL` et la clé `NEXT_PUBLIC_SUPABASE_ANON_KEY` doivent être présentes dans l’environnement Production.
 
@@ -20,7 +20,7 @@ Appliquer dans cet ordre au projet DuckAuth via SQL Editor :
 6. [`duckauth/migrations/202611070006_duckadmin_founder_only.sql`](duckauth/migrations/202611070006_duckadmin_founder_only.sql) réserve DuckAdmin au compte fondateur confirmé `duckdev-service@protonmail.com`, y compris pour les sauvegardes SQL.
 7. [`duckauth/migrations/202611080001_site_page_builder.sql`](duckauth/migrations/202611080001_site_page_builder.sql) active l’éditeur visuel sur toutes les pages : textes sélectionnés directement, blocs texte/bouton/téléchargement/image/vidéo, téléversement d’images et restrictions fondateur.
 
-Les migrations 001 à 006 sont appliquées au projet Duck actuellement configuré. Appliquer la migration 007 pour activer la modification de contenu sur toutes les pages et le stockage d’images. Le DeskDuck personnel est accessible à chaque compte confirmé; DuckAdmin reste réservé au compte fondateur. Les membres ne peuvent pas modifier les métadonnées Auth gérées côté serveur.
+La migration [`202611080002_duckmoney_coding_contests.sql`](duckauth/migrations/202611080002_duckmoney_coding_contests.sql) ajoute les portefeuilles fictifs DuckMoney, les frais d’inscription, le registre de banque et les paiements de concours réservés au compte fondateur. Elle doit être appliquée au projet DuckAuth après les migrations de profils et d’admin. Le DeskDuck personnel est accessible à chaque compte confirmé; DuckAdmin et les commandes de banque concours restent réservés au compte fondateur. Les membres ne peuvent pas modifier les métadonnées Auth gérées côté serveur.
 
 `setup.sql` à la racine de ce dossier est un ancien script de l’architecture Firebase; ne pas l’exécuter pour cette version, car il configure des politiques et fonctions fondées sur Firebase UID.
 

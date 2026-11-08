@@ -3,17 +3,19 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowUpRight, BookOpen, FileUp, LayoutDashboard, Palette, ShieldCheck, Sparkles, UserRound } from 'lucide-react';
+import { ArrowUpRight, BookOpen, Coins, FileUp, LayoutDashboard, Palette, ShieldCheck, Sparkles, UserRound } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 const FOUNDER_EMAIL = 'duckdev-service@protonmail.com';
 type DeskUser = { id: string; email?: string | null; user_metadata?: Record<string, unknown>; app_metadata?: Record<string, unknown> };
 type Profile = { username: string; first_name: string; last_name: string; bio: string | null; avatar_url: string | null; duck_points: number; role: string };
+type DuckWallet = { balance: number; duck_rib: string };
 
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<DeskUser | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [wallet, setWallet] = useState<DuckWallet | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,9 +28,11 @@ export default function DashboardPage() {
         await supabase.auth.signOut(); router.replace('/auth/login?state=unverified'); return;
       }
       const { data } = await supabase.from('profiles').select('username, first_name, last_name, bio, avatar_url, duck_points, role').eq('id', session.user.id).maybeSingle();
+      const { data: walletData } = await supabase.from('duck_wallets').select('balance, duck_rib').eq('user_id', session.user.id).maybeSingle();
       if (!active) return;
       setUser(session.user);
       setProfile(data as Profile | null);
+      setWallet(walletData as DuckWallet | null);
       setLoading(false);
     })();
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -51,6 +55,11 @@ export default function DashboardPage() {
       {profile?.avatar_url ? <img className="deskduck-avatar" src={profile.avatar_url} alt=""/> : <span className="deskduck-avatar deskduck-avatar-fallback"><UserRound size={25}/></span>}
       <div><strong>{profile?.username ? `@${profile.username}` : displayName}</strong><p>{profile?.bio || (isAdmin ? 'Espace administrateur DUCK.' : 'Bienvenue dans ton espace personnel DUCK.')}</p></div>
       <span className="deskduck-points"><Sparkles size={15}/>{profile?.duck_points ?? 0} points</span>
+    </section>
+    <section className="dashboard-tile duck-wallet-card" aria-label="Portefeuille DuckMoney">
+      <div className="duck-wallet-icon"><Coins size={20}/></div>
+      <div><span className="section-kicker">PORTEFEUILLE FICTIF</span><h2>{wallet?.balance ?? '—'} DuckMoney</h2><p>DuckRIB de réception <code>{wallet?.duck_rib ?? 'Chargement…'}</code></p></div>
+      <Link href="/concours" className="text-link">Voir les concours <ArrowUpRight size={15}/></Link>
     </section>
     <div className="dashboard-grid deskduck-grid">
       <Link href="/services" className="dashboard-tile deskduck-link"><LayoutDashboard/><h2>Explorer les services</h2><p>Retrouve les espaces et outils de l’écosystème DUCK.</p><span>Découvrir <ArrowUpRight size={15}/></span></Link>

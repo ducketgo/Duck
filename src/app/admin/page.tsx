@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Palette, RefreshCw, Save, Search, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Palette, RefreshCw, Save, Search, ShieldCheck, Trophy } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import styles from './admin.module.css';
 
@@ -188,6 +188,7 @@ export default function AdminPage() {
       </div>
       <div className={styles.headerActions}>
         {isFounder && <Link className="button button-secondary" href="/admin/visual"><Palette size={15}/> Modifier le site</Link>}
+        {isFounder && <Link className="button button-secondary" href="/admin/concours"><Trophy size={15}/> Banque & concours</Link>}
         <button className="button button-secondary" type="button" onClick={() => void loadData()} disabled={loading}>
           <RefreshCw size={15}/> Actualiser
         </button>

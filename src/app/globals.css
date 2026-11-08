@@ -641,3 +641,15 @@ body {
   .site-visual-root .hero { min-height: auto; }
   .site-visual-root .hero h1,.site-visual-root .page-title { font-size: clamp(42px, 11vw, var(--duck-h1-size)); }
 }
+.duck-contest-banner { min-height:58px; padding:8px clamp(14px,calc((100vw - 1160px)/2),80px); display:flex; align-items:center; gap:12px; background:linear-gradient(100deg,#3c3016,#171711 70%); border-bottom:1px solid #d9ae4c42; color:#fff4d0; }
+.duck-contest-banner-icon { width:34px; height:34px; flex:0 0 34px; display:grid; place-items:center; border:1px solid #e3bf5b55; border-radius:10px; background:#e1b94c17; color:#f2cf6d; }
+.duck-contest-banner-copy { min-width:0; flex:1; display:grid; gap:3px; }
+.duck-contest-banner-copy strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; }
+.duck-contest-banner-copy small { color:#c4b88f; font-size:10px; }
+.duck-contest-banner>a { display:inline-flex; align-items:center; gap:5px; color:#f3d578; font-size:10px; font-weight:700; white-space:nowrap; }
+.duck-contest-banner>a:hover { color:#fff0b8; }
+@media (max-width:600px) { .duck-contest-banner { gap:8px; }.duck-contest-banner-copy small { display:none; }.duck-contest-banner>a { max-width:110px; white-space:normal; text-align:right; font-size:9px; } }
+.duck-wallet-card { margin-top:14px; padding:20px 23px; display:flex; align-items:center; gap:15px; border:1px solid #70dcca33; background:linear-gradient(110deg,#102523,#101720 75%); }
+.duck-wallet-icon { width:42px; height:42px; flex:0 0 42px; display:grid; place-items:center; border:1px solid #70dcca44; border-radius:12px; color:#8ce5d5; background:#70dcca12; }
+.duck-wallet-card>div:nth-child(2) { flex:1; }.duck-wallet-card .section-kicker { font-size:9px; }.duck-wallet-card h2 { margin:4px 0; font-size:20px; }.duck-wallet-card p { margin:0; color:#9aabb1; font-size:11px; }.duck-wallet-card code { margin-left:5px; color:#9ce8dc; letter-spacing:.7px; }
+@media (max-width:600px) { .duck-wallet-card { padding:16px; flex-wrap:wrap; }.duck-wallet-card>.text-link { width:100%; margin-left:57px; } }

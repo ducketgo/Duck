@@ -11,6 +11,7 @@ import { DuckInteractiveGame } from '@/components/duck-interactive-game';
 import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { SitePageEditor } from '@/components/site-page-editor';
+import { DuckContestPromo } from '@/components/duck-contest-promo';
 
 const FOUNDER_EMAIL = 'duckdev-service@protonmail.com';
 
@@ -83,6 +84,7 @@ function SiteShellContent({ children }: { children: React.ReactNode }) {
   ];
 
   return <>
+    <DuckContestPromo />
     {!standaloneGame && <header className="site-header" data-compact={Number(settings.headerHeight) < 64 ? 'yes' : 'no'}>
       <Link className="brand" href="/" aria-label={`${settings.brandName}, accueil`}>
         <span className="brand-mark" data-visual-hidden={!settings.showBrandMark}>{settings.brandMark}</span>
