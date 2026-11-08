@@ -84,3 +84,29 @@
 .reflexStats>span { min-width:96px; }
 .stackOverlay>span { color:#91ead8; font-size:11px; font-weight:750; }
 @media (max-width:760px) { .memoryOptions .record { width:100%; margin:3px 0 0; text-align:center; }.memoryOptions { gap:6px; }.reflexStats { gap:6px; }.reflexStats>span { min-width:calc(50% - 6px); } }
+.numberSecret { width:112px; height:112px; margin:24px auto 16px; position:relative; display:grid; place-items:center; border:1px solid #72e2d455; border-radius:50%; background:radial-gradient(circle,#193c42,#0b1821 68%); font-size:54px; }
+.numberSecret strong { position:absolute; color:#eaf8f5; font-size:27px; }
+.numberMessage { min-height:24px; color:#9cf0de; font-size:15px; font-weight:750; text-align:center; }
+.guessForm { max-width:380px; margin:18px auto 0; display:flex; gap:8px; }
+.guessForm input { min-width:0; min-height:42px; flex:1; padding:0 12px; border:1px solid var(--line); border-radius:8px; background:#080e15; color:#eff7f7; }
+.guessForm .playButton:disabled { opacity:.5; cursor:default; }
+.guessHistory { min-height:34px; margin:10px auto 0; display:flex; justify-content:center; flex-wrap:wrap; gap:6px; }
+.guessHistory span { min-width:30px; padding:6px 8px; border:1px solid var(--line); border-radius:7px; color:#bdcbd0; font:11px ui-monospace,monospace; text-align:center; }
+.inlineRestart { display:block; margin:10px auto 0; border:0; background:transparent; color:#8de8dc; font-size:11px; cursor:pointer; }
+.mathQuestion { margin:34px 0 22px; color:#f2f8f8; font-size:clamp(40px,9vw,62px); font-weight:800; letter-spacing:-2px; text-align:center; }
+.answerGrid { max-width:440px; margin:auto; display:grid; grid-template-columns:repeat(2,1fr); gap:9px; }
+.answerGrid button { min-height:58px; border:1px solid #79dcd933; border-radius:10px; background:#10212b; color:#e4f5f3; font-size:19px; font-weight:750; cursor:pointer; }
+.answerGrid button:hover:not(:disabled) { border-color:#87ebdb; background:#183a3d; }.answerGrid button:disabled { opacity:.48; cursor:default; }
+.inlineStart { min-height:49px; margin-top:16px; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:12px; color:#a9bbc1; font-size:11px; text-align:center; }
+.colorPrompt { margin:30px 0 22px; color:#aebfc5; font-size:13px; text-align:center; }.colorPrompt strong { display:block; margin-top:8px; font-size:clamp(27px,6vw,42px); }
+.colorGrid { width:min(350px,100%); margin:auto; display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.colorGrid button { aspect-ratio:1.45; display:grid; place-items:center; border:1px solid color-mix(in srgb,var(--swatch),transparent 40%); border-radius:13px; background:color-mix(in srgb,var(--swatch),#091018 84%); cursor:pointer; transition:transform .14s,filter .14s; }
+.colorGrid button:hover:not(:disabled) { transform:scale(1.035); filter:brightness(1.2); }.colorGrid button:disabled { opacity:.48; cursor:default; }
+.colorGrid i { width:31px; height:31px; border:2px solid #ffffff66; border-radius:50%; background:var(--swatch); box-shadow:0 0 20px color-mix(in srgb,var(--swatch),transparent 50%); }
+.pathGrid,.sequenceGrid { width:min(430px,100%); margin:20px auto; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+.pathGrid button { aspect-ratio:1; border:1px solid #70c9f444; border-radius:10px; background:#10202c; color:#e3f2f4; font-size:clamp(16px,4vw,23px); font-weight:750; cursor:pointer; }
+.pathGrid button:disabled { opacity:.5; cursor:default; }.pathGrid button.pathFound { border-color:#78e0c177; background:#18382f; color:#8ee0ba; }
+.sequenceGrid { width:min(360px,100%); grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.sequenceGrid button { aspect-ratio:1; border:1px solid #b09bff55; border-radius:14px; background:radial-gradient(circle,#182237,#0c121b); cursor:pointer; transition:background .14s,box-shadow .14s,transform .14s; }
+.sequenceGrid button:disabled { cursor:default; }.sequenceGrid button.sequenceLit { transform:scale(.96); border-color:#ddccff; background:radial-gradient(circle,#b09bff,#51439e); box-shadow:0 0 30px #b09bff88; }
+@media (max-width:760px) { .pathGrid,.sequenceGrid { gap:6px; }.pathGrid button { border-radius:8px; }.sequenceGrid button { border-radius:11px; } }

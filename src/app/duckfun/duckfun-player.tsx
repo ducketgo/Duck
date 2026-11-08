@@ -21,11 +21,90 @@ function shuffledCards(symbols: string[]): Card[] {
 export function DuckFunPlayer({ game }: { game: DuckFunGame }) {
   if (game.slug === 'memoire-de-la-mare') return <MemoryGame game={game}/>;
   if (game.slug === 'plouf-reflexe') return <ReflexGame game={game}/>;
-  return <DuckStackGame game={game}/>;
+  if (game.slug === 'duck-stack') return <DuckStackGame game={game}/>;
+  if (game.slug === 'plouf-ou-plus') return <NumberGame game={game}/>;
+  if (game.slug === 'calcul-maree') return <MathGame game={game}/>;
+  if (game.slug === 'palette-plouf') return <ColorGame game={game}/>;
+  if (game.slug === 'parcours-eclair') return <NumberPathGame game={game}/>;
+  return <DuckSequenceGame game={game}/>;
 }
 
 function GameHeading({ game, eyebrow }: { game: DuckFunGame; eyebrow: string }) {
   return <div className={styles.gameHeading}><span className={styles.gameEyebrow}>{eyebrow}</span><h1>{game.title}</h1><p>{game.description}</p></div>;
+}
+
+function NumberGame({ game }: { game: DuckFunGame }) {
+  const [target, setTarget] = useState(42);
+  const [value, setValue] = useState('');
+  const [attempts, setAttempts] = useState<number[]>([]);
+  const [message, setMessage] = useState('Choisis un nombre entre 1 et 100.');
+  const [won, setWon] = useState(false);
+  useEffect(() => { setTarget(1 + Math.floor(Math.random() * 100)); }, []);
+  function guess(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const number = Number(value);
+    if (!Number.isInteger(number) || number < 1 || number > 100 || won || attempts.length >= 7) return;
+    const next = [...attempts, number]; setAttempts(next); setValue('');
+    if (number === target) { setMessage('Trouvé ! Le canard était bien caché.'); setWon(true); }
+    else if (next.length === 7) setMessage(`La mare révèle le nombre : ${target}.`);
+    else setMessage(number < target ? 'Plus haut !' : 'Plus bas !');
+  }
+  function restart() { setTarget(1 + Math.floor(Math.random() * 100)); setAttempts([]); setValue(''); setMessage('Choisis un nombre entre 1 et 100.'); setWon(false); }
+  return <section className={styles.experience}><GameHeading game={game} eyebrow="JEU 04 · DÉDUCTION"/><div className={styles.numberSecret}>🫧<strong>?</strong></div><div className={styles.numberMessage} role="status">{message}</div><p className={styles.gameMessage}>Essai {Math.min(attempts.length + 1, 7)} sur 7</p><form className={styles.guessForm} onSubmit={guess}><input aria-label="Ton nombre" type="number" min="1" max="100" value={value} onChange={event => setValue(event.target.value)} placeholder="1 à 100" disabled={won || attempts.length >= 7}/><button className={styles.playButton} type="submit" disabled={won || attempts.length >= 7}>Deviner</button></form><div className={styles.guessHistory}>{attempts.map((attempt, index) => <span key={`${attempt}-${index}`}>{attempt}</span>)}</div>{(won || attempts.length >= 7) && <button className={styles.inlineRestart} type="button" onClick={restart}>Nouvelle partie</button>}</section>;
+}
+
+type MathQuestion = { prompt: string; answer: number; choices: number[] };
+function makeMathQuestion(): MathQuestion {
+  const a = 2 + Math.floor(Math.random() * 18); const b = 2 + Math.floor(Math.random() * 12);
+  const multiply = Math.random() > .55; const answer = multiply ? a * b : a + b;
+  const choices = new Set([answer]);
+  while (choices.size < 4) choices.add(Math.max(0, answer + Math.floor(Math.random() * 17) - 8));
+  return { prompt: `${a} ${multiply ? '×' : '+'} ${b}`, answer, choices: [...choices].sort(() => Math.random() - .5) };
+}
+function MathGame({ game }: { game: DuckFunGame }) {
+  const [question, setQuestion] = useState<MathQuestion>({ prompt: '7 + 5', answer: 12, choices: [12, 10, 14, 9] });
+  const [playing, setPlaying] = useState(false); const [seconds, setSeconds] = useState(30); const [score, setScore] = useState(0); const [streak, setStreak] = useState(0); const [best, setBest] = useState(0);
+  useEffect(() => { setBest(Number(window.localStorage.getItem('duckfun-math-best')) || 0); }, []);
+  useEffect(() => { if (!playing) return; const timer = window.setInterval(() => setSeconds(value => value - 1), 1000); return () => window.clearInterval(timer); }, [playing]);
+  useEffect(() => { if (!playing || seconds > 0) return; setPlaying(false); if (score > best) { setBest(score); window.localStorage.setItem('duckfun-math-best', String(score)); } }, [best, playing, score, seconds]);
+  function answer(value: number) { if (!playing) return; if (value === question.answer) { setScore(current => current + 1 + (streak >= 4 ? 1 : 0)); setStreak(current => current + 1); } else setStreak(0); setQuestion(makeMathQuestion()); }
+  function start() { setScore(0); setStreak(0); setSeconds(30); setQuestion(makeMathQuestion()); setPlaying(true); }
+  return <section className={styles.experience}><GameHeading game={game} eyebrow="JEU 05 · CALCUL MENTAL"/><div className={styles.reflexStats}><span><TimerReset size={17}/><b>{seconds}s</b></span><span><Sparkles size={17}/><b>{score}</b> points</span><span><b>{streak}</b> série</span></div><div className={styles.mathQuestion} aria-live="polite">{question.prompt} = ?</div><div className={styles.answerGrid}>{question.choices.map(choice => <button type="button" key={choice} onClick={() => answer(choice)} disabled={!playing}>{choice}</button>)}</div>{!playing && <div className={styles.inlineStart}><span>{seconds === 0 ? `Score : ${score} · record : ${best}` : '30 secondes, prêt ?'}</span><button className={styles.playButton} type="button" onClick={start}>{seconds === 0 ? 'Rejouer' : 'Démarrer'}</button></div>}<p className={styles.gameMessage}>Les bonnes réponses en série rapportent un point bonus.</p></section>;
+}
+
+const PALETTE = [{ name: 'Turquoise', color: '#72e2d4' }, { name: 'Corail', color: '#ff8f86' }, { name: 'Violet', color: '#b09bff' }, { name: 'Citron', color: '#d8e875' }];
+function ColorGame({ game }: { game: DuckFunGame }) {
+  const [playing, setPlaying] = useState(false); const [seconds, setSeconds] = useState(20); const [score, setScore] = useState(0); const [combo, setCombo] = useState(0); const [target, setTarget] = useState(0); const [best, setBest] = useState(0);
+  useEffect(() => { setBest(Number(window.localStorage.getItem('duckfun-color-best')) || 0); }, []);
+  useEffect(() => { if (!playing) return; const timer = window.setInterval(() => setSeconds(value => value - 1), 1000); return () => window.clearInterval(timer); }, [playing]);
+  useEffect(() => { if (!playing || seconds > 0) return; setPlaying(false); if (score > best) { setBest(score); window.localStorage.setItem('duckfun-color-best', String(score)); } }, [best, playing, score, seconds]);
+  function choose(index: number) { if (!playing) return; if (index === target) { setCombo(value => value + 1); setScore(value => value + 1 + (combo >= 4 ? 1 : 0)); } else setCombo(0); setTarget(value => (value + 1 + Math.floor(Math.random() * (PALETTE.length - 1))) % PALETTE.length); }
+  function start() { setSeconds(20); setScore(0); setCombo(0); setTarget(Math.floor(Math.random() * PALETTE.length)); setPlaying(true); }
+  return <section className={styles.experience}><GameHeading game={game} eyebrow="JEU 06 · COULEURS"/><div className={styles.reflexStats}><span><TimerReset size={17}/><b>{seconds}s</b></span><span><Sparkles size={17}/><b>{score}</b> points</span><span><b>{combo}</b> série</span></div><p className={styles.colorPrompt}>Touche la couleur <strong style={{ color: PALETTE[target].color }}>{PALETTE[target].name}</strong></p><div className={styles.colorGrid}>{PALETTE.map((color, index) => <button type="button" key={color.name} disabled={!playing} aria-label={color.name} style={{ '--swatch': color.color } as React.CSSProperties} onClick={() => choose(index)}><i/></button>)}</div>{!playing && <div className={styles.inlineStart}><span>{seconds === 0 ? `Score : ${score} · record : ${best}` : '20 secondes, prêt ?'}</span><button className={styles.playButton} type="button" onClick={start}>{seconds === 0 ? 'Rejouer' : 'Démarrer'}</button></div>}<p className={styles.gameMessage}>Garde le rythme et enchaîne les bonnes réponses pour marquer plus.</p></section>;
+}
+
+function NumberPathGame({ game }: { game: DuckFunGame }) {
+  const [numbers, setNumbers] = useState<number[]>(Array.from({ length: 16 }, (_, index) => index + 1)); const [next, setNext] = useState(1); const [startedAt, setStartedAt] = useState<number | null>(null); const [elapsed, setElapsed] = useState(0); const [best, setBest] = useState<number | null>(null); const finished = next === 17;
+  useEffect(() => { setBest(Number(window.localStorage.getItem('duckfun-path-best')) || null); }, []);
+  useEffect(() => { if (startedAt === null || finished) return; const timer = window.setInterval(() => setElapsed((Date.now() - startedAt) / 1000), 50); return () => window.clearInterval(timer); }, [finished, startedAt]);
+  useEffect(() => { if (!finished || startedAt === null) return; const result = (Date.now() - startedAt) / 1000; setElapsed(result); if (best === null || result < best) { setBest(result); window.localStorage.setItem('duckfun-path-best', String(result)); } }, [best, finished, startedAt]);
+  function start() { setNumbers([...Array.from({ length: 16 }, (_, index) => index + 1)].sort(() => Math.random() - .5)); setNext(1); setElapsed(0); setStartedAt(Date.now()); }
+  function tap(number: number) { if (startedAt === null || finished) return; if (number === next) setNext(value => value + 1); }
+  return <section className={styles.experience}><GameHeading game={game} eyebrow="JEU 07 · VITESSE"/><div className={styles.reflexStats}><span><TimerReset size={17}/><b>{elapsed.toFixed(1)} s</b></span><span><b>{Math.min(next - 1, 16)}</b> / 16</span><span>Record : <b>{best ? `${best.toFixed(1)} s` : '—'}</b></span></div><div className={styles.pathGrid}>{numbers.map(number => <button type="button" key={number} disabled={startedAt === null || finished || number < next} className={number < next ? styles.pathFound : ''} onClick={() => tap(number)}>{number}</button>)}</div>{(startedAt === null || finished) && <div className={styles.inlineStart}><span>{finished ? `Terminé en ${elapsed.toFixed(1)} secondes !` : 'Touchez les nombres dans l’ordre.'}</span><button className={styles.playButton} type="button" onClick={start}>{finished ? 'Rejouer' : 'Commencer'}</button></div>}<p className={styles.gameMessage}>Un faux pas ? Pas de pénalité, retrouve simplement le prochain nombre.</p></section>;
+}
+
+function DuckSequenceGame({ game }: { game: DuckFunGame }) {
+  const [sequence, setSequence] = useState<number[]>([]); const [input, setInput] = useState<number[]>([]); const [active, setActive] = useState<number | null>(null); const [showing, setShowing] = useState(false); const [best, setBest] = useState(0); const [message, setMessage] = useState('Observe les cases, puis reproduis la séquence.');
+  useEffect(() => { setBest(Number(window.localStorage.getItem('duckfun-sequence-best')) || 0); }, []);
+  useEffect(() => { if (!showing) return; const timers: number[] = []; sequence.forEach((value, index) => { timers.push(window.setTimeout(() => setActive(value), 420 + index * 680)); timers.push(window.setTimeout(() => setActive(null), 820 + index * 680)); }); timers.push(window.setTimeout(() => { setShowing(false); setInput([]); setMessage('À toi de jouer !'); }, 420 + sequence.length * 680)); return () => timers.forEach(window.clearTimeout); }, [sequence, showing]);
+  function start() { const first = [Math.floor(Math.random() * 9)]; setSequence(first); setInput([]); setMessage('Mémorise la séquence…'); setShowing(true); }
+  function press(index: number) {
+    if (showing || !sequence.length) return;
+    const attempt = [...input, index]; setInput(attempt);
+    if (sequence[attempt.length - 1] !== index) { setMessage(`Fin de partie · ${sequence.length - 1} étapes réussies.`); if (sequence.length - 1 > best) { setBest(sequence.length - 1); window.localStorage.setItem('duckfun-sequence-best', String(sequence.length - 1)); } setSequence([]); setInput([]); return; }
+    if (attempt.length === sequence.length) { const next = [...sequence, Math.floor(Math.random() * 9)]; setSequence(next); setShowing(true); setMessage('Bien joué ! Retient la nouvelle séquence.'); }
+  }
+  return <section className={styles.experience}><GameHeading game={game} eyebrow="JEU 08 · MÉMOIRE"/><div className={styles.reflexStats}><span><Sparkles size={17}/><b>{Math.max(0, sequence.length - (showing ? 1 : 0))}</b> étapes</span><span>Record : <b>{best}</b></span></div><div className={styles.sequenceGrid}>{Array.from({ length: 9 }, (_, index) => <button key={index} type="button" disabled={showing || !sequence.length} className={active === index ? styles.sequenceLit : ''} onClick={() => press(index)} aria-label={`Case ${index + 1}`}/>)}</div><div className={styles.inlineStart}><span role="status">{message}</span>{!sequence.length && <button className={styles.playButton} type="button" onClick={start}>Commencer</button>}</div></section>;
 }
 
 function MemoryGame({ game }: { game: DuckFunGame }) {
