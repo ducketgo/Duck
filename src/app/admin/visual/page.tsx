@@ -113,6 +113,7 @@ export default function VisualSiteEditorPage() {
     <header className={styles.header}>
       <div><Link className={styles.back} href="/admin"><ArrowLeft size={15}/> Console admin</Link><div className={styles.kicker}><ShieldCheck size={14}/> ADMINISTRATEUR UNIQUEMENT</div><h1>Éditeur visuel du site</h1><p>Modifie l’apparence, le contenu de l’accueil et la navigation. L’aperçu se met à jour immédiatement.</p></div>
       <div className={styles.headerActions}>
+        <a className={styles.secondaryButton} href="/" target="_blank" rel="noreferrer"><Eye size={15}/> Modifier le site en direct</a>
         <button className={styles.secondaryButton} type="button" onClick={() => { setDraft(saved); setSettings(saved); setNotice('Aperçu restauré depuis les dernières modifications publiées.'); }}><RotateCcw size={15}/> Annuler</button>
         <button className={styles.secondaryButton} type="button" onClick={exportSettings}><Download size={15}/> Exporter</button>
         <button className={styles.secondaryButton} type="button" onClick={() => importRef.current?.click()}><Upload size={15}/> Importer</button>

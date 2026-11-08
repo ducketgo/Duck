@@ -18,8 +18,9 @@ Appliquer dans cet ordre au projet DuckAuth via SQL Editor :
 4. [`duckauth/migrations/202611070004_admin_action_log.sql`](duckauth/migrations/202611070004_admin_action_log.sql) ajoute le journal d’actions administrateur.
 5. [`duckauth/migrations/202611070005_visual_site_editor.sql`](duckauth/migrations/202611070005_visual_site_editor.sql) active les réglages visuels publics, la sauvegarde admin uniquement et l’historique des publications.
 6. [`duckauth/migrations/202611070006_duckadmin_founder_only.sql`](duckauth/migrations/202611070006_duckadmin_founder_only.sql) réserve DuckAdmin au compte fondateur confirmé `duckdev-service@protonmail.com`, y compris pour les sauvegardes SQL.
+7. [`duckauth/migrations/202611080001_site_page_builder.sql`](duckauth/migrations/202611080001_site_page_builder.sql) active l’éditeur visuel sur toutes les pages : textes sélectionnés directement, blocs texte/bouton/téléchargement/image/vidéo, téléversement d’images et restrictions fondateur.
 
-Les migrations 001 à 004 sont appliquées au projet Duck actuellement configuré. Appliquer les migrations 005 et 006 dans l’ordre pour activer l’éditeur et réserver son accès au compte fondateur. Le DeskDuck personnel est accessible à chaque compte confirmé; les raccourcis DuckAdmin restent réservés au compte fondateur. Les membres ne peuvent pas modifier les métadonnées Auth gérées côté serveur.
+Les migrations 001 à 006 sont appliquées au projet Duck actuellement configuré. Appliquer la migration 007 pour activer la modification de contenu sur toutes les pages et le stockage d’images. Le DeskDuck personnel est accessible à chaque compte confirmé; DuckAdmin reste réservé au compte fondateur. Les membres ne peuvent pas modifier les métadonnées Auth gérées côté serveur.
 
 `setup.sql` à la racine de ce dossier est un ancien script de l’architecture Firebase; ne pas l’exécuter pour cette version, car il configure des politiques et fonctions fondées sur Firebase UID.
 
