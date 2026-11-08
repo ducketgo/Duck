@@ -71,17 +71,19 @@ function SiteShellContent({ children }: { children: React.ReactNode }) {
   const accountName = typeof user?.user_metadata?.first_name === 'string'
     ? user.user_metadata.first_name
     : user?.email?.split('@')[0] || 'Mon compte';
+  const standaloneGame = pathname === '/duckfun' || pathname.startsWith('/duckfun/');
   const links = [
     { href: '/', label: settings.navHomeLabel },
     { href: '/services', label: settings.navServicesLabel },
     { href: '/about', label: settings.navAboutLabel },
+    { href: '/duckfun', label: 'DuckFun' },
     { href: '/software', label: settings.navSoftwareLabel },
     { href: '/transfer', label: settings.navTransferLabel },
     { href: '/journal', label: settings.navJournalLabel },
   ];
 
   return <>
-    <header className="site-header" data-compact={Number(settings.headerHeight) < 64 ? 'yes' : 'no'}>
+    {!standaloneGame && <header className="site-header" data-compact={Number(settings.headerHeight) < 64 ? 'yes' : 'no'}>
       <Link className="brand" href="/" aria-label={`${settings.brandName}, accueil`}>
         <span className="brand-mark" data-visual-hidden={!settings.showBrandMark}>{settings.brandMark}</span>
         <span>{settings.brandName}<span className="brand-dot">.</span></span>
@@ -106,10 +108,10 @@ function SiteShellContent({ children }: { children: React.ReactNode }) {
         </div>
       </nav>
       <button className="mobile-menu" onClick={() => setOpen(!open)} aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'} aria-expanded={open}>{open ? <X/> : <Menu/>}</button>
-    </header>
-    <main><SitePageEditor pathname={pathname} isFounder={user?.email?.toLowerCase() === FOUNDER_EMAIL}>{children}</SitePageEditor></main>
-    <DuckInteractiveGame />
-    <footer className="site-footer" data-visual-hidden={!settings.showFooter}>
+    </header>}
+    {standaloneGame ? children : <main><SitePageEditor pathname={pathname} isFounder={user?.email?.toLowerCase() === FOUNDER_EMAIL}>{children}</SitePageEditor></main>}
+    {!standaloneGame && <DuckInteractiveGame />}
+    {!standaloneGame && <footer className="site-footer" data-visual-hidden={!settings.showFooter}>
       <Link className="brand footer-brand" href="/">
         <span className="brand-mark" data-visual-hidden={!settings.showBrandMark}>{settings.brandMark}</span>
         <span>{settings.brandName}<span className="brand-dot">.</span></span>
@@ -117,7 +119,7 @@ function SiteShellContent({ children }: { children: React.ReactNode }) {
       <p>Apprendre, avancer et performer.</p>
       <div className="footer-links"><Link href="/about">À propos</Link><Link href="/legal">Mentions légales</Link><Link href="/privacy">Confidentialité</Link><Link href="/terms">Conditions</Link><a href="mailto:duckdev-service@protonmail.com">Assistance</a></div>
       <span>© {new Date().getFullYear()} {settings.brandName} · Projet communautaire</span>
-    </footer>
+    </footer>}
   </>;
 }
 

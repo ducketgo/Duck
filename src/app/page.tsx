@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowDownRight, ArrowRight, ArrowUpRight, AudioLines, Box, Code2, Compass, Globe2, ShieldCheck, Users } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, ArrowUpRight, AudioLines, Box, Code2, Compass, Gamepad2, Globe2, ShieldCheck, Users } from 'lucide-react';
 import { useSiteVisualSettings } from '@/components/site-visual-provider';
 
 const branches = [
@@ -28,6 +28,7 @@ export default function HomePage() {
       <Link className="scroll-cue" href="#ecosysteme" aria-label="Découvrir l’écosystème"><ArrowDownRight size={17}/></Link>
     </section>
     <section className="intro-band" data-visual-hidden={!settings.showIntroSection}><div className="wrap intro-inner"><span className="section-kicker">{settings.introLabel}</span><p>{settings.introText}</p><Compass className="intro-icon" strokeWidth={1}/></div></section>
+    <section className="duckfun-promo wrap"><span className="duckfun-promo-icon"><Gamepad2 size={22}/></span><div><span className="section-kicker">DUCKPHONE · ARCADE</span><h2>Une pause, un jeu ?</h2><p>Des mini-jeux originaux à découvrir dans DuckFun.</p></div><Link className="button" href="/duckfun">Explorer DuckFun <ArrowUpRight size={16}/></Link></section>
     <section className="section wrap" id="ecosysteme" data-visual-hidden={!settings.showServicesSection}><div className="section-head"><div><span className="section-kicker">{settings.servicesSectionLabel}</span><h2>{settings.servicesHeading}</h2></div><Link className="text-link" href="/services">Tous les services <ArrowUpRight size={16}/></Link></div><div className="branch-grid">{branches.map(({ icon: Icon, ...branch }, index) => <Link className="branch-card" key={branch.name} href={branch.href}><div className="branch-top"><span className={`branch-icon ${branch.color}`}><Icon size={19}/></span><span className="branch-number">0{index + 1}</span></div><h3>{branch.name}</h3><p>{branch.text}</p><span className="branch-arrow"><ArrowUpRight size={17}/></span></Link>)}</div></section>
     <section className="manifesto" data-visual-hidden={!settings.showManifestoSection}><div className="wrap manifesto-inner"><span className="section-kicker">{settings.manifestoLabel}</span><p>{settings.manifestoText}</p><Link href="/about" className="text-link">En savoir plus sur DUCK <ArrowRight size={16}/></Link><div className="manifesto-orb"/></div></section>
     <section className="closing-cta wrap" data-visual-hidden={!settings.showClosingSection}><div><span className="section-kicker">{settings.closingLabel}</span><h2>Une idée en tête ?<br/><span>Elle a sa place ici.</span></h2></div><Link href="/auth/signup" className="button">{settings.closingButtonLabel} <ArrowUpRight size={16}/></Link></section>
