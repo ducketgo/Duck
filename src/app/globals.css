@@ -94,8 +94,185 @@ button,input { font:inherit }
 
 /* Keyframe animations */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.04); }
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0px) rotate(-8deg); }
+  50% { transform: translateY(-7px) rotate(-6deg); }
+}
+
+@keyframes orbit-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes node-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(65, 216, 229, 0.2)); }
+  50% { transform: scale(1.07); filter: drop-shadow(0 0 14px rgba(65, 216, 229, 0.45)); }
+}
+
+@keyframes badge-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Micro-animations and page entrance */
+.hero-copy {
+  animation: slide-up 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-art {
+  animation: fade-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.hero-core {
+  animation: float-subtle 6s ease-in-out infinite;
+}
+
+.orbit-one {
+  animation: orbit-rotate 40s linear infinite;
+}
+
+.orbit-two {
+  animation: orbit-rotate 55s linear infinite reverse;
+}
+
+.orbit-three {
+  animation: orbit-rotate 70s linear infinite;
+}
+
+.orbit-node {
+  animation: node-pulse 4s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.orbit-node:hover {
+  transform: scale(1.18);
+  box-shadow: 0 0 25px rgba(65, 216, 229, 0.6);
+}
+
+.node-b { animation-delay: 1s; }
+.node-c { animation-delay: 2s; }
+.node-d { animation-delay: 3s; }
+
+.pulse-dot {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Card hover and interactive physics */
+.branch-card, .dashboard-tile, .service-row, .about-grid article, .feature-panel {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.25s ease, 
+              background-color 0.25s ease, 
+              box-shadow 0.25s ease;
+}
+
+.branch-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(65, 216, 229, 0.12);
+}
+
+.branch-card:hover .branch-icon {
+  transform: scale(1.1) rotate(4deg);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.branch-icon {
+  transition: transform 0.25s ease;
+}
+
+.branch-card:hover .branch-arrow {
+  transform: translate(3px, -3px);
+  color: var(--color-duck-cyan-light);
+  transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.branch-arrow {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.button {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              background 0.2s ease, 
+              box-shadow 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(65, 216, 229, 0.28);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.dashboard-tile {
+  animation: fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.deskduck-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4), 0 0 18px rgba(65, 216, 229, 0.15);
+}
+
+.deskduck-link:hover svg {
+  transform: scale(1.1);
+  transition: transform 0.25s ease;
+}
+
+.deskduck-points {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.service-row:hover .service-arrow {
+  transform: translateX(4px);
+  transition: transform 0.2s ease;
+}
+
+.service-arrow {
+  transition: transform 0.2s ease;
+}
+
+.brand-mark {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.brand:hover .brand-mark {
+  transform: rotate(8deg) scale(1.08);
+  box-shadow: 0 0 28px rgba(65, 216, 229, 0.55);
+}
+
+.manifesto-orb {
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+
+.scroll-cue {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, border-color 0.2s ease;
+}
+
+.scroll-cue:hover {
+  transform: translateY(3px) scale(1.1);
+  color: var(--color-duck-cyan-light);
+  border-color: var(--color-duck-cyan);
 }
 
 @keyframes slide-up {
