@@ -12,8 +12,12 @@ export async function generateMetadata({ params }: SoftwarePageProps): Promise<M
   const { slug } = await params;
   const supabase = createPlatformPublicClient();
   if (!supabase) return { title: 'Logiciel' };
-  const { data } = await supabase.from('software').select('name').eq('slug', slug).eq('is_published', true).maybeSingle();
-  return { title: data?.name ?? 'Logiciel' };
+const { data } = await supabase.from('software').select('name, description, categories').eq('slug', slug).eq('is_published', true).maybeSingle();
+  return {
+    title: data?.name ?? 'Logiciel',
+    description: data?.description ?? 'Logiciel de l écosystème DUCK.',
+    keywords: data ? [data.name, ...(data.categories ?? []), 'duck', 'logiciel'] : ['duck'],
+  };
 }
 
 export default async function SoftwareDetailPage({ params }: SoftwarePageProps) {

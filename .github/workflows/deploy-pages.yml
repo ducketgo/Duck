@@ -51,6 +51,8 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH }}
           NEXT_PUBLIC_HOSTING_PROVIDER: GitHub Pages
           NEXT_PUBLIC_SUPABASE_REGION: ${{ vars.NEXT_PUBLIC_SUPABASE_REGION || 'eu-west-3' }}
+          # SEO / verification
+          NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '57qw3X0k0H6kPEVo0i6jOdD3LawWPJXZBYJLLb8_VQY' }}
           # Feature flags. Keep disabled until the Supabase project is verified.
           NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED: ${{ vars.NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED || 'false' }}
           NEXT_PUBLIC_GUEST_TRANSFER_ENABLED: ${{ vars.NEXT_PUBLIC_GUEST_TRANSFER_ENABLED || 'false' }}

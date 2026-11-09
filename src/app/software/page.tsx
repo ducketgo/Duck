@@ -3,7 +3,11 @@ import Link from 'next/link';
 import { ArrowUpRight, PackageOpen } from 'lucide-react';
 import { createPlatformPublicClient } from '@/lib/supabase/platform';
 
-export const metadata: Metadata = { title: 'Logiciels' };
+export const metadata: Metadata = {
+  title: 'Logiciels',
+  description: 'Catalogue des logiciels et projets DUCK publiés. Téléchargements, versions et documentation.',
+  keywords: ['logiciels duck', 'open source', 'téléchargement', 'projets duck'],
+};
 
 export const dynamic = 'force-dynamic';
 

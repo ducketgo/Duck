@@ -7,7 +7,8 @@ import styles from './duckfun.module.css';
 
 export const metadata: Metadata = {
   title: 'DuckFun — 200 jeux',
-  description: 'Deux cents mini-jeux de mémoire, de réflexion, de vitesse et d’adresse.',
+  description: 'Deux cents mini-jeux gratuits de mémoire, de réflexion, de vitesse et d adresse. Jouables dans le navigateur, sans téléchargement.',
+  keywords: ['duckfun', 'mini-jeux', 'jeux gratuits', 'jeux en ligne', 'arcade', 'jeux de mémoire', 'jeux de réflexes'],
 };
 
 export default function DuckFunPage() {

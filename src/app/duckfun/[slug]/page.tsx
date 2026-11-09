@@ -13,7 +13,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const game = DUCKFUN_GAMES.find(item => item.slug === slug);
-  return { title: game ? `${game.title} — DuckFun` : 'Jeu DuckFun', description: game?.description };
+  return {
+    title: game ? `${game.title} — DuckFun` : 'Jeu DuckFun',
+    description: game?.description ?? 'Mini-jeu gratuit de l arcade DuckFun.',
+    keywords: game ? [game.title, game.category, game.description, 'duckfun', 'jeu gratuit', 'jeu en ligne'] : ['duckfun'],
+  };
 }
 
 export default async function DuckFunGamePage({ params }: { params: Promise<{ slug: string }> }) {
