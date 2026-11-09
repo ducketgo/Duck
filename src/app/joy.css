@@ -1,0 +1,30 @@
+/* Joyful atmosphere layer */
+@keyframes joy-float { 0% { transform: translateY(0) rotate(0deg); opacity: .9; } 50% { transform: translateY(-18px) rotate(8deg); opacity: 1; } 100% { transform: translateY(0) rotate(0deg); opacity: .9; } }
+@keyframes joy-confetti-fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+@keyframes joy-pop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes joy-wiggle { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes joy-rainbow { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+@keyframes joy-toast-in { 0% { transform: translateY(20px) scale(.9); opacity: 0; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes joy-toast-out { 0% { opacity: 1; } 100% { opacity: 0; transform: translateY(-10px); } }
+
+.joy-layer { position: fixed; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+.joy-bubble { position: absolute; font-size: 22px; animation: joy-float 4s ease-in-out infinite; user-select: none; filter: drop-shadow(0 0 6px rgba(255,255,255,.35)); }
+.joy-confetti { position: fixed; top: -20px; font-size: 18px; animation: joy-confetti-fall 3.2s linear forwards; pointer-events: none; z-index: 9999; will-change: transform; }
+.joy-toast { position: fixed; bottom: 96px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, rgba(56,216,232,.92), rgba(162,139,250,.92)); color: #071016; font-weight: 700; font-size: 14px; padding: 10px 18px; border-radius: 999px; box-shadow: 0 12px 30px rgba(0,0,0,.35); z-index: 9998; animation: joy-toast-in .35s ease, joy-toast-out .4s ease 2.6s forwards; pointer-events: none; white-space: nowrap; }
+.joy-mascot { position: fixed; bottom: 140px; left: 16px; font-size: 34px; cursor: pointer; z-index: 6; animation: joy-wiggle 2.4s ease-in-out infinite; filter: drop-shadow(0 0 10px rgba(56,216,232,.5)); user-select: none; }
+.joy-mascot:hover { animation: joy-rainbow 1.2s linear infinite, joy-wiggle .6s ease-in-out infinite; transform: scale(1.15); }
+.joy-sparkle-btn { transition: transform .15s ease, box-shadow .2s ease; }
+.joy-sparkle-btn:hover { transform: translateY(-3px) scale(1.04) rotate(-1deg); box-shadow: 0 10px 24px rgba(56,216,232,.35); }
+.joy-rainbow-text { background: linear-gradient(90deg,#38d8e8,#a28bfa,#6be0b2,#ffd166,#38d8e8); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: joy-rainbow 4s linear infinite; }
+.joy-bounce { animation: joy-pop .5s ease; }
+@media (max-width: 760px) { .joy-mascot { bottom: 100px; left: 10px; font-size: 28px; } .joy-toast { font-size: 12px; padding: 8px 14px; } }
+
+/* Make the whole site feel more playful */
+.site-visual-root { background-image: radial-gradient(circle at 20% 10%, rgba(56,216,232,.06), transparent 40%), radial-gradient(circle at 80% 30%, rgba(162,139,250,.06), transparent 40%), radial-gradient(circle at 50% 90%, rgba(107,224,178,.05), transparent 40%); }
+.site-header { border-bottom: 1px solid rgba(56,216,232,.18); }
+.brand-mark { animation: joy-wiggle 3s ease-in-out infinite; }
+.button { position: relative; overflow: hidden; }
+.button::after { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%); transform: translateX(-100%); transition: transform .6s ease; }
+.button:hover::after { transform: translateX(100%); }
+.hero h1, .page-title { letter-spacing: -.5px; }
+.manifesto p, .hero-lede { line-height: 1.65; }

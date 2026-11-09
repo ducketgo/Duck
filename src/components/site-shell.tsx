@@ -8,6 +8,7 @@ import { cn } from '@/utils/cn';
 import { isPublicRegistrationEnabled } from '@/lib/supabase/config';
 import { SiteVisualProvider, useSiteVisualSettings } from '@/components/site-visual-provider';
 import { DuckInteractiveGame } from '@/components/duck-interactive-game';
+import { JoyfulLayer } from '@/components/joyful-layer';
 import { createClient } from '@/lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import { SitePageEditor } from '@/components/site-page-editor';
@@ -122,6 +123,7 @@ function SiteShellContent({ children }: { children: React.ReactNode }) {
       <div className="footer-links"><Link href="/about">À propos</Link><Link href="/legal">Mentions légales</Link><Link href="/privacy">Confidentialité</Link><Link href="/terms">Conditions</Link><a href="mailto:duckdev-service@protonmail.com">Assistance</a></div>
       <span>© {new Date().getFullYear()} {settings.brandName} · Projet communautaire</span>
     </footer>}
+  <JoyfulLayer />
   </>;
 }
 
