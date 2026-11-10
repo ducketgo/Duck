@@ -42,6 +42,10 @@ export default async function ServicePage({ params }: Props) {
             title="Playlist DjDuck"
             style={{ borderRadius: 12, marginTop: 12 }}
           />
+          <div style={{ marginTop: 12, display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <a className="button button-small" href="https://suno.com/@djduck2013" target="_blank" rel="noreferrer">Écouter sur Suno 🎵 <ArrowUpRight size={14}/></a>
+            <a className="button button-small" href="https://soundcloud.com/djduck2026" target="_blank" rel="noreferrer">Écouter sur SoundCloud <ArrowUpRight size={14}/></a>
+          </div>
           <div style={{ fontSize: 10, color: '#cccccc', lineBreak: 'anywhere', wordBreak: 'normal', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontFamily: 'Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif', fontWeight: 100, marginTop: 8 }}>
             <a href="https://soundcloud.com/djduck2026" title="DJ DUCK" target="_blank" rel="noreferrer" style={{ color: '#cccccc', textDecoration: 'none' }}>DJ DUCK</a>
             {' · '}

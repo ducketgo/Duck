@@ -46,3 +46,12 @@ next-env.d.ts
 /supabase/.temp
 
 .vercel
+
+# local build helpers and logs
+/build.txt
+/tsc*.txt
+/run-build.bat
+/run-tsc.bat
+
+# IDE
+/.idea/
