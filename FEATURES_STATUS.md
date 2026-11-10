@@ -1,6 +1,6 @@
 # DUCK Feature Status and Repository Audit
 
-Updated: 2026-11-07
+Updated: 2026-11-10
 
 ## Audit Summary
 
@@ -42,7 +42,7 @@ Updated: 2026-11-07
 | DUCK-24 | Human moderation and public-content AI assistance | À planifier | No moderation queue or AI integration | Requires reports, human decisions, explainability, privacy boundaries, and a configured provider. Private messages must remain excluded. |
 | DUCK-25 | Public/admin statistics | À planifier | No verified metrics | Define aggregation and privacy thresholds; do not expose private-member activity. |
 | DUCK-26 | Events, calendar, attendance, reminders | À planifier | No event schema or UI | Requires scheduling, notifications, visibility and cancellation workflows. |
-| DUCK-27 | DjDuck audio/video/playlists/podcasts | À planifier | Branch description only | Requires media rights, storage/streaming, playback, moderation, and content-management tools. |
+| DUCK-27 | DjDuck audio/video/playlists/podcasts | Disponible | DjDuck page exposes a SoundCloud player plus Suno and SoundCloud links; tracks are hosted on those platforms | Podcasts, video, in-site hosting, media rights, and moderation tooling remain to plan. |
 | DUCK-28 | Courses, workshops, exercises, progress | À planifier | No learning system | Requires course/content models, progress persistence, and clear internal-certificate labeling. |
 | DUCK-29 | DUCK AI assistant and specialized agents | À planifier | No AI service | Requires provider configuration, scoped tools, consent, audit, cost limits, and human approval for sensitive actions. |
 | DUCK-30 | Public API, SDK, plugin marketplace | À planifier | No API or plugin system | Requires OAuth/scopes, key lifecycle, rate limits, sandboxing, docs, and security reviews. |
