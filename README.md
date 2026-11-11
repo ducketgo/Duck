@@ -14,11 +14,11 @@ La connexion, l’inscription, la vérification d’adresse et la récupération
 
 ## Déploiement Vercel
 
-Le projet utilise le build Next.js natif de Vercel. Le domaine de production actuel est `https://duck-lac-two.vercel.app`.
+Le projet utilise le build Next.js natif de Vercel. Le domaine de production actuel est `https://duck2026.vercel.app`.
 
 Configurer ces variables dans Vercel pour Production : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_APP_URL` et `NEXT_PUBLIC_DUCK_REGISTRATION_ENABLED`.
 
-Dans Supabase Auth, activer le fournisseur e-mail, définir l’URL du site et autoriser les redirections vers `https://duck-lac-two.vercel.app/**` et `http://localhost:3000/**`. Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY` ou une clé `sb_secret_...` dans une variable `NEXT_PUBLIC_*`.
+Dans Supabase Auth, activer le fournisseur e-mail, définir l’URL du site et autoriser les redirections vers `https://duck2026.vercel.app/**` et `http://localhost:3000/**`. Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY` ou une clé `sb_secret_...` dans une variable `NEXT_PUBLIC_*`.
 
 ## Documentation
 

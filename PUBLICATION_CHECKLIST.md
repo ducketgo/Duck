@@ -15,7 +15,7 @@ Le site est publié sur Vercel et les inscriptions publiques sont activées. Vé
 ## Vérification Supabase Auth
 
 - [ ] Confirmer l’activation du fournisseur e-mail et de la confirmation d’adresse dans Supabase Auth.
-- [ ] Ajouter `https://duck-lac-two.vercel.app/**` aux URL de redirection autorisées.
+- [ ] Ajouter `https://duck2026.vercel.app/**` aux URL de redirection autorisées.
 - [ ] Appliquer et vérifier la migration `supabase/duckauth/migrations/202611070001_initial_schema.sql`.
 - [ ] Tester création de compte, e-mail de confirmation, connexion et réinitialisation de mot de passe.
 - [ ] Définir l’âge minimum et les règles applicables aux mineurs.

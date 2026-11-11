@@ -1,6 +1,6 @@
 # Déploiement
 
-Le site DUCK est déployé sur Vercel avec le build Next.js natif. L’alias public actuel est `https://duck-lac-two.vercel.app`.
+Le site DUCK est déployé sur Vercel avec le build Next.js natif. L’alias public actuel est `https://duck2026.vercel.app`.
 
 ## Variables de production
 
@@ -10,7 +10,7 @@ Ne jamais ajouter une clé service-role ou une clé `sb_secret_...` à une varia
 
 ## Supabase Auth
 
-Dans **Authentication → Providers**, activer le fournisseur e-mail et la confirmation d’adresse. Dans **Authentication → URL Configuration**, définir l’URL du site sur `https://duck-lac-two.vercel.app` et autoriser `https://duck-lac-two.vercel.app/**` ainsi que `http://localhost:3000/**`.
+Dans **Authentication → Providers**, activer le fournisseur e-mail et la confirmation d’adresse. Dans **Authentication → URL Configuration**, définir l’URL du site sur `https://duck2026.vercel.app` et autoriser `https://duck2026.vercel.app/**` ainsi que `http://localhost:3000/**`.
 
 ## Vérification
 
